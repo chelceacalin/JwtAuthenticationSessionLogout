@@ -11,7 +11,7 @@ import java.util.List;
 public class TestController {
 
     @GetMapping("/list")
-    public List<String> getEmpList(){
-        return List.of("Calin","Radu","Alex");
+    public List<String> getEmpList() {
+        return List.of("Calin", "Radu", "Alex");
     }
 }

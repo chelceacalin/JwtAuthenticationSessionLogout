@@ -3,12 +3,10 @@ package com.auth.authRouting.service;
 import com.auth.authRouting.dao.request.SignUpRequest;
 import com.auth.authRouting.dao.request.SigninRequest;
 import com.auth.authRouting.dao.response.AuthenticationResponse;
-import com.auth.authRouting.dao.response.UserDto;
 import com.auth.authRouting.mapper.UserMapper;
 import com.auth.authRouting.model.Role;
 import com.auth.authRouting.model.User;
 import com.auth.authRouting.repository.UserRepository;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,11 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService  {
+public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
     public AuthenticationResponse signup(SignUpRequest request) {
         var user = User.builder()
                 .firstName(request.getFirstName())
@@ -38,6 +37,7 @@ public class AuthenticationService  {
 
         return AuthenticationResponse.builder().token(jwt).user(UserMapper.getDto(user)).build();
     }
+
     public AuthenticationResponse signin(SigninRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -51,5 +51,7 @@ public class AuthenticationService  {
         return AuthenticationResponse.builder().token(jwt).user(UserMapper.getDto(user)).build();
     }
 
-
+    public void logout(String token) {
+        jwtService.invalidateToken(token);
+    }
 }

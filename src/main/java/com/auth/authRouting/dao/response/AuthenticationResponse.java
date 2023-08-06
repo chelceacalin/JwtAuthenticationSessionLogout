@@ -1,6 +1,5 @@
 package com.auth.authRouting.dao.response;
 
-import com.auth.authRouting.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

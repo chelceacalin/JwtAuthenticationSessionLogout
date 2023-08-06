@@ -19,8 +19,17 @@ public class JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
-    private long tokenExpirationSeconds = 20*3*5;
+    private final long tokenExpirationSeconds = 20*3*5*10;
+    private final Set<String> tokenBlacklist = new HashSet<>();
 
+    public void invalidateToken(String token) {
+        if(!isTokenBlacklisted(token))
+             tokenBlacklist.add(token);
+    }
+
+    public boolean isTokenBlacklisted(String token) {
+        return tokenBlacklist.contains(token);
+    }
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
