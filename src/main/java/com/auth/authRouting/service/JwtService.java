@@ -19,7 +19,7 @@ public class JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
-    private final long tokenExpirationSeconds = 20*3*5*10;
+    private final long tokenExpirationSeconds = 20000*3*5*10;
     private final Set<String> tokenBlacklist = new HashSet<>();
 
     public void invalidateToken(String token) {
@@ -71,7 +71,7 @@ public class JwtService {
                 .compact();
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 

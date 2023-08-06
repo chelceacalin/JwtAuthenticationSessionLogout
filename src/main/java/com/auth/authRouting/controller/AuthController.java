@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -49,5 +50,11 @@ public class AuthController {
             return authHeader.substring(7);
         }
         return null;
+    }
+
+
+    @GetMapping("/istokenvalid/{token}")
+    public Boolean istokenValid(@PathVariable String token){
+        return  authenticationService.isTokenValid(token,null);
     }
 }
